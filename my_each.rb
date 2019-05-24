@@ -15,9 +15,13 @@ module Enumerable
 
     def my_select
         if block_given?
-            arr = []
-            self.my_each{|x| arr << x if yield(self)}
-            arr
+        arr = []
+            for i in 0..self.size-1
+                if yield(self[i])
+                arr << self[i]
+                end  
+            end
+                return arr
         end
     end
 
@@ -57,7 +61,7 @@ module Enumerable
             puts "not block given"
         end
     end
-end
+
 
 
     def my_map(&proc)
@@ -132,5 +136,5 @@ puts arr3.my_inject{|sum, n| sum + n}
 puts arr3.my_inject{|mul, n| mul * n}
 
 #multiply_els
-p mulptiply_els([2, 4, 5])  
+p multiply_els([2, 4, 5])  
 
