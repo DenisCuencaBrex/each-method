@@ -53,13 +53,10 @@ module Enumerable
     end
 
     def my_count
-        if block_given?
-            number = 0
-            self.my_each{|x| number += 1 if yield(x)}
-            number
-        else
-            puts "not block given"
-        end
+       return self.size unless block_given?
+        number = 0
+            self.my_each { |x| number += 1 if yield x }
+        number
     end
 
 
@@ -125,7 +122,8 @@ puts arr1.my_none?{|item| item.length < 10}
 
 #my_count
 arr2 = [1, 3, 4, 8, 10]
-puts arr2.my_count{ |x| x%4==0 }  
+puts arr2.my_count
+puts [2,3,5,7,8].my_count
 
 #my_map
 puts arr2.my_map{|x| x*x}
