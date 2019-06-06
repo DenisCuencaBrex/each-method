@@ -76,15 +76,12 @@ module Enumerable
     end
 
     def my_inject
-        if nil
-            total = nil
-        else
-            total = self[0]
-    end
-    for i in 1..self.length
-        total = yield(total, i)
-    end
-    total
+     arr = self.to_a
+        until arr.length == 1
+            arr[0] = yield(arr[0], arr[1])
+            arr.delete_at(1)
+        end
+        arr[0]
     end
 
 end

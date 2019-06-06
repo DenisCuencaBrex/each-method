@@ -47,3 +47,31 @@ RSpec.describe Enumerable do
         end
     end
 end
+
+RSpec.describe Enumerable do
+    describe "#my_count" do
+        it "Returns the numbers of element in the array" do
+            expect([1,2,3,4,5,6].my_count).to eql(6)
+        end
+    end
+end
+
+RSpec.describe Enumerable do
+        describe "#my_map" do
+        it "Returns a new array containing the values of multiply all the elements in the array for itself returned by the block" do
+            expect([1,2,3,4].my_map {|x| x * x}).to eql([1,4,9,16])
+        end
+    end
+end
+
+RSpec.describe Enumerable do
+    describe "#my_inject" do
+        it "Returns all the elements in the array into one element"do
+            expect([2,2,4].my_inject {|a, b| a + b}).to eql(8)
+        end
+    end
+end
+
+
+
+    
