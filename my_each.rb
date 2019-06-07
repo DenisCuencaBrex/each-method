@@ -43,7 +43,7 @@ module Enumerable
             self.my_each{|x| return true if yield(x) == true}
             false
         else
-            true
+            false
         end
     end
 
