@@ -1,5 +1,5 @@
-# each-method
-my own each method in ruby ​​without using each
+# Enumerable Methods
+my own enumerable methods
 
 ## Authors
 
