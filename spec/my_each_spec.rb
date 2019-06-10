@@ -8,6 +8,7 @@ RSpec.describe Enumerable do
     let(:hash1) { {a:"Hello", b:"Hey", c:"Goodbye"} }
     let(:empty_hash) { {} }
     let(:block) { proc {|x| x} }
+    let(:block1) {proc {|x| x * x}}
 
     describe "#my_each" do
         it "Returns each element of an array" do
@@ -26,8 +27,9 @@ RSpec.describe Enumerable do
 
     describe "#my_each_with_index" do
         it "Returns the index of each element in the array" do
-            expect(array.my_each_with_index {|x, index| index}).to eql([0,1,2,3])
+            expect(array.my_each_with_index {|x, index| index}).to eql([1,2,3,4])
         end
+        
     end
 
     describe "#my_select" do
@@ -36,12 +38,9 @@ RSpec.describe Enumerable do
         end
 
         it "Work with empty hash" do
-            expect(empty_hash.my_select {|key, val| value > 2}).to eql([])
+            expect(empty_hash.my_select {|key, val| value > 2}).to eql({})
         end
 
-        it "Work with procs" do
-            expect(array.my_select {block}).to eql(array.my_select{block})
-        end
     end
 
     describe "#my_all?" do
@@ -53,9 +52,6 @@ RSpec.describe Enumerable do
             expect(array_nil.my_all?{|val| val == nil}).to eql(false)
         end
 
-        it "Works with procs" do
-            expect(array.my_all?{block}).to eql(array.my_all?{block})
-        end
     end
 
     describe "#my_any?" do
@@ -67,10 +63,6 @@ RSpec.describe Enumerable do
             expect(array.my_any?{}).to eql(false)
         end
 
-        it "Works with procs" do
-            expect(array.my_any?{block}).to eql(array.my_any?{block})
-        end
-
     end
 
     describe "#my_none?" do
@@ -79,15 +71,11 @@ RSpec.describe Enumerable do
         end
 
         it "Returns true if the elements in the hash pass any condition, if it's not returns false" do
-            expect(hash1.my_none? {|key, val| val.length > 2}).to eql(true)
+            expect(hash1.my_none? {|key, val| val.length > 2}).to eql(false)
         end
 
         it "Returns true if not block passed" do
             expect(array.my_none? {}).to eql(true)
-        end
-
-        it "Works with procs" do
-            expect(array.my_none?{block}).to eql(array.my_none?{block})
         end
 
     end
@@ -107,23 +95,25 @@ RSpec.describe Enumerable do
         it "Returns a new array containing the values of multiply all the elements in the array for itself" do
             expect(array.my_map {|x| x * x}).to eql([1,4,9,16])
         end
+
+        it "Works with procs" do
+            expect(array.my_map{block1}).to eql(array.map{block1})
+        end
+
     end
 
     describe "#my_inject" do
         it "Returns all the elements in the array into one element" do
-            expect(array.my_inject {|a, b| a + b}).to eql(11)
-        end
-
-        it "Works with procs" do
-            expect(array.my_inject{block}).to eql(array.my_inject{block})
+            expect(array.my_inject {|a, b| a + b}).to eql(10)
         end
 
     end
 
-    describe "#multiply_els(array)" do
+    describe "#multiply_els" do
         it "multiplies the elements in the array" do
             expect(multiply_els(array)).to eql(24)
         end
+
     end
 
 end

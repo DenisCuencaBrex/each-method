@@ -1,59 +1,110 @@
 module Enumerable
     def my_each
-       for i in 0..self.length-1
-        yield(self[i]) if self.is_a? Array
-       end
-       self
+       if self.is_a? Array
+        for i in 0...self.length
+            yield self[i]
+        end
+        elsif self.is_a? Hash
+            for key in self.keys
+                yield key, self[key]
+            end
+        else return false
+        end
+        self
     end
 
     def my_each_with_index
-       i = 0
-        arr = []
-        loop do
-            arr << yield(self[i], i)
-            i += 1            
-            break if i > self.length-1
+       index = 0
+       if self.is_a? Array
+        for i in 0...self.length
+            yield self[i], i
         end
-        arr
+        elsif self.is_a? Hash
+            for key in self.keys
+                yield [key, self[key]], index
+                index += 1
+            end
+        else
+            return false
+        end
+        self
     end
 
     def my_select
-        if block_given?
-        arr = []
-            for i in 0..self.size-1
-                if yield(self[i])
-                arr << self[i]
-                end  
+        if self.is_a? Array
+            val = []
+            self.my_each do |element|
+                case yield element
+                when true then val << element
+                end
             end
-                return arr
+            elsif self.is_a? Hash
+                val = {}
+                self.my_each do |key, element|
+                    case yield key, element
+                    when true then val[key] = element
+                    end
+                end
+            else return false
+            end
+            val
         end
-    end
 
     def my_all?
-        if block_given?
-            self.my_each{|x| return false if yield(x) == false}
-            true
-        else
-            true
+       if self.is_a? Array
+        self.my_each do |element|
+            case yield element
+            when false then return false
+            end
         end
+        elsif self.is_a? Hash
+            self.my_each do |key, element|
+                case yield key, element
+                when false then return false
+                end
+            end
+        else
+            return nil
+        end
+        true
     end
 
     def my_any?
-        if block_given?
-            self.my_each{|x| return true if yield(x) == true}
+        if self.is_a? Array
+            self.my_each do |element|
+                case yield element
+                when true then return true
+                end
+            end
+            elsif self.is_a? Hash
+                self.my_each do |key, element|
+                    case yield key, element
+                    when true then return true
+                    end
+                end
+            else
+                return nil
+            end
             false
-        else
-            true
-        end
     end
 
     def my_none?
-        if block_given?
-            self.my_each{|x| return false if yield(x) == true}
+         if self.is_a? Array
+            self.my_each do |element|
+                case yield element
+                when true then return false
+                end
+            end
+            elsif self.is_a? Hash
+                self.my_each do |key, element|
+                    case yield key, element
+                    when true then return false
+                    end
+                end
+            else
+                return nil
+            end
             true
-        else
-            false
-        end
     end
 
     def my_count
@@ -73,21 +124,16 @@ module Enumerable
         end
     end
 
-    def my_inject()
-         if nil
-            total = nil
-        else
-            total = self[0]
+   def my_inject(result=0)
+        self.my_each{|x| result = yield(result, x) }
+            result
     end
-    for i in 1..self.length
-        total = yield(total, i)
-    end
-    total
-    end
+
+
 end
 
-def multiply_els(array)
-    array.my_inject{|total, number| total * number}
-end
+    def multiply_els(array)
+        array.my_inject(1){|total, number| total * number}
+    end
 
 
