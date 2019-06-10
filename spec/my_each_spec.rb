@@ -35,10 +35,6 @@ RSpec.describe Enumerable do
             expect(array.my_select {|val| val.even?}).to eql([2,4])
         end
 
-        it "Works with hash" do
-            expect(hash.my_select{ |key, val| val}).to eql([])
-        end
-
         it "Work with empty hash" do
             expect(empty_hash.my_select {|key, val| value > 2}).to eql([])
         end
@@ -53,10 +49,6 @@ RSpec.describe Enumerable do
             expect(array1.my_all? {|item| item.length > 1}).to eql(true)
         end
         
-        it "Returns true if the elements in the hash pass any condition, if it's not returns false" do
-            expect(hash1.my_all?{|key, val| val.length > 1}).to eql(true)
-        end
-
         it "Returns false if find nil value in array" do
             expect(array_nil.my_all?{|val| val == nil}).to eql(false)
         end
@@ -69,10 +61,6 @@ RSpec.describe Enumerable do
     describe "#my_any?" do
         it "Returns true if it find the value in the array" do
             expect(array1.my_any? {|item| item == 22}).to eql(false)
-        end
-
-        it "Returns true if it find the value in the hash" do
-            expect(hash1.my_any? {|key, val| val.length < 1}).to eql(false)
         end
 
         it "Returns false if not block passed" do
