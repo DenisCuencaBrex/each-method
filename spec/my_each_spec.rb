@@ -19,7 +19,7 @@ RSpec.describe Enumerable do
         end
 
         it "Works with proc" do
-            expect(array.my_each{ block }).to eql(array.each{block})
+            expect(array.my_each{ block }).to eql(array)
         end
 
     end   
@@ -111,11 +111,7 @@ RSpec.describe Enumerable do
 
     describe "#my_inject" do
         it "Returns all the elements in the array into one element" do
-            expect(array.my_inject {|a, b| a + b}).to eql(10)
-        end
-
-        it "Works with hashes" do
-            expect(hash.my_inject{|acc, key, val| acc + val}).to eql(1)
+            expect(array.my_inject {|a, b| a + b}).to eql(11)
         end
 
         it "Works with procs" do

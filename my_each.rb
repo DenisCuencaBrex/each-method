@@ -73,26 +73,16 @@ module Enumerable
         end
     end
 
-    def my_inject(acc="undefined")
-     arr = self
-        if self.is_a? Array
-        if acc == "undefined"
-          acc = self[0]
-          arr = self[1..-1]
-        end
-        arr.my_each do |element|
-          acc = yield(acc, element)
-        end
-      elsif self.is_a? Hash
-        if acc == "undefined"
-          acc = self[self.keys[0]]
-          arr.delete(arr.keys[0])
-        end
-        arr.my_each do |key, element|
-          acc = yield(acc, key, element)
-        end
-      end
-      acc
+    def my_inject()
+         if nil
+            total = nil
+        else
+            total = self[0]
+    end
+    for i in 1..self.length
+        total = yield(total, i)
+    end
+    total
     end
 end
 
